@@ -141,7 +141,7 @@ if (age2 < 14 || age2 > 90) alert("OK!");
 if (!(age <= 90 && age >= 14)) alert("OK!");
 
 // 8. Check the login
-let login = prompt("Who is there?", "").toLowerCase();
+let login = prompt("Who is there?", "");
 if (login === "admin") {
   let password = prompt("Password: ", "");
   if (password === "TheMaster") {
@@ -200,12 +200,10 @@ for (let i = 1; i <= 10; i++) {
   
 // 7. Output prime numbers
 
-
 let inputNumber = +prompt("Enter your nr: ", 10);
 
 firstLoop:
 for (let i = 2; i <= inputNumber; i++) {
-  
   for (let j = 2; j < i; j++) {
     if (i % j == 0) continue firstLoop; // we found a prime so go verify next nr
   }
@@ -215,23 +213,23 @@ for (let i = 2; i <= inputNumber; i++) {
 
 // -------- The "switch" statement --------
 // 1. Write the code using if..else which would correspond to the following switch:
+/*
+  switch (browser) {
+    case 'Edge':
+      alert( "You've got the Edge!" );
+      break;
 
-// switch (browser) {
-//   case 'Edge':
-//     alert( "You've got the Edge!" );
-//     break;
+    case 'Chrome':
+    case 'Firefox':
+    case 'Safari':
+    case 'Opera':
+      alert( 'Okay we support these browsers too' );
+      break;
 
-//   case 'Chrome':
-//   case 'Firefox':
-//   case 'Safari':
-//   case 'Opera':
-//     alert( 'Okay we support these browsers too' );
-//     break;
-
-//   default:
-//     alert( 'We hope that this page looks ok!' );
-// }
-
+    default:
+      alert( 'We hope that this page looks ok!' );
+  }
+*/
 if (browser === "Edge") {
   alert( "You've got the Edge!" );
 } else if (browser === "Chrome" || "Firefox" || "Safari" || "Opera" ) {
@@ -242,16 +240,18 @@ if (browser === "Edge") {
 
 // 2. Rewrite the code below using a single switch statement:
 
-// let a = +prompt('a?', '');
-// if (a == 0) {
-//   alert( 0 );
-// }
-// if (a == 1) {
-//   alert( 1 );
-// }
-// if (a == 2 || a == 3) {
-//   alert( '2,3' );
-// }
+/*
+  let a = +prompt('a?', '');
+  if (a == 0) {
+    alert( 0 );
+  }
+  if (a == 1) {
+    alert( 1 );
+  }
+  if (a == 2 || a == 3) {
+    alert( '2,3' );
+}
+*/
 
 switch (a) {
   case a == 0: 
