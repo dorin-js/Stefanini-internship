@@ -1,3 +1,3 @@
-import {ex2} from './objects.js';
+import {accumulatorEx} from './constructor-new.js';
 
-ex2();
+accumulatorEx()
