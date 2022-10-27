@@ -1,20 +1,22 @@
-
-// 1.
-let calculator = {
-  read() {
-    this.a = +prompt("a = ", 0);
-    this.b = +prompt("b = ", 0);
-  },
-  sum() {
-    return this.a + this.b;
+export function ex1() {
+  /** Create calculator */
+  let calculator = {
+    read() {
+      this.a = +prompt("a = ", 0);
+      this.b = +prompt("b = ", 0);
+    },
+    sum() {
+      return this.a + this.b;
+    }
   }
+  calculator.read();
+  calculator.sum(); 
 }
-calculator.read();
-calculator.sum();
 
 
-// 2. 
-let ladder = {
+export function ex2() {
+  /** Chaining */
+  let ladder = {
   step: 0,
   up() {
     this.step++;
@@ -31,3 +33,4 @@ let ladder = {
 };
 
 ladder.up().up().down().showStep().down().showStep(); 
+}
