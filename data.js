@@ -1,12 +1,16 @@
 export const functionsData = [
   {
-    Folder: 'objects-the-basics',
-    FileName: 'constructor-new',
-    FunctionName: ['accumulatorEx', 'calculatorEx'],
+    folder: "objects-the-basics",
+    fileNames: {
+      "constructor-new": ["accumulatorEx", "calculatorEx"],
+    },
   },
   {
-    Folder: 'data-types',
-    FileName: 'numbers',
-    FunctionName: ['RandomIntegerTASK'],
-  }
-]
+    folder: "data-types",
+    fileNames: {
+      numbers: ["RandomIntegerTASK"],
+      strings: ["checkStringForSpam", "truncateTheTextForMaxLength"],
+      arrays: ["sumInputNumbersUsingArray", "getMaximalSubarraySum"],
+    },
+  },
+];

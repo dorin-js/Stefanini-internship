@@ -3,22 +3,31 @@ import { functionsData } from "./data.js";
 const app = document.querySelector(".app");
 
 functionsData.forEach((element) => {
-
   const title = document.createElement("h3");
-  title.textContent = element.Folder.toUpperCase();
+  title.textContent = element.folder.toUpperCase();
 
   app.appendChild(title);
 
-  const path = `./${element.Folder}/${element.FileName}.js`;
+  const { fileNames, folder } = element;
 
-  element.FunctionName.forEach((name) => {
-    const button = document.createElement("button");
-    button.textContent = name;
-    button.addEventListener("click", async function load() {
-      let fnName = await import(path);
-      console.log(fnName)
-      fnName[name]();
+  for (let fileName in fileNames) {
+    const path = `./${folder}/${fileName}.js`;
+    const list = document.createElement("ul");
+    const category = document.createElement("h5");
+    category.textContent = fileName;
+    app.append(category);
+    fileNames[fileName].forEach((name) => {
+      const button = document.createElement("button");
+      const li = document.createElement("li");
+      // button.textContent = name;
+      button.addEventListener("click", async function load() {
+        let fnName = await import(path);
+        fnName[name]();
+      });
+      button.textContent = name;
+      li.appendChild(button);
+      list.append(li);
     });
-    app.appendChild(button);
-  });
+    app.appendChild(list);
+  }
 });
