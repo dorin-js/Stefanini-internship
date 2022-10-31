@@ -12,22 +12,28 @@ functionsData.forEach((element) => {
 
   for (let fileName in fileNames) {
     const path = `./${folder}/${fileName}.js`;
+
     const list = document.createElement("ul");
     const category = document.createElement("h5");
     category.textContent = fileName;
     app.append(category);
+
     fileNames[fileName].forEach((name) => {
       const button = document.createElement("button");
       const li = document.createElement("li");
-      // button.textContent = name;
-      button.addEventListener("click", async function load() {
-        let fnName = await import(path);
-        fnName[name]();
-      });
+
       button.textContent = name;
+      button.addEventListener("click", loadDynamicModule);
+
       li.appendChild(button);
       list.append(li);
+
+      async function loadDynamicModule() {
+        let fnName = await import(path);
+        fnName[name]();
+      }
     });
+
     app.appendChild(list);
   }
 });
