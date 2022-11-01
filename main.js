@@ -13,20 +13,20 @@ functionsData.forEach((element) => {
   for (let fileName in fileNames) {
     const path = `./${folder}/${fileName}.js`;
 
-    const list = document.createElement("ul");
+    const list = document.createElement("div");
+    list.classList.add("main-grid");
+
     const category = document.createElement("h5");
     category.textContent = fileName;
     app.append(category);
 
     fileNames[fileName].forEach((name) => {
       const button = document.createElement("button");
-      const li = document.createElement("li");
 
       button.textContent = name;
       button.addEventListener("click", loadDynamicModule);
 
-      li.appendChild(button);
-      list.append(li);
+      list.append(button);
 
       async function loadDynamicModule() {
         let fnName = await import(path);
