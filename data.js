@@ -22,4 +22,13 @@ export const functionsData = [
       ],
     },
   },
+  {
+    folder: "promises",
+    fileNames: {
+      "promise-base": [
+        "setTimeoutPromiseAlternative",
+        "setTimeoutPromiseAlternative",
+      ],
+    },
+  },
 ];
