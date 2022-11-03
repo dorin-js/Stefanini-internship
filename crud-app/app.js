@@ -47,16 +47,6 @@ const updateUsersTable = async () => {
 };
 document.addEventListener("DOMContentLoaded", updateUsersTable);
 
-// const form = document.forms["form"];
-// console.log(form);
-// form.onsubmit = function (e) {
-//   e.preventDefault();
-//   var fname = document.form.fname.value;
-//   var lname = document.form.lname.value;
-//   var form = document.form.email.value;
-//   console.log(fname, lname, form);
-// };
-
 const createUserForm = document.getElementById("createUser");
 createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -66,6 +56,7 @@ createUserForm.addEventListener("submit", async (e) => {
   // let name = document.createUserForm.name.value;
   // let surname = document.createUserForm.surnamename.value;
   // let email = document.createUserForm.email.value;
+  // let birth = document.createUserForm.birth.value;
 
   showToaster("Posting...!");
 
