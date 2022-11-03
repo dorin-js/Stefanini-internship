@@ -1,23 +1,12 @@
+import { BASE_URL, HEADERS } from "./constants.js";
 export class HttpClient {
-  constructor(options = {}) {
-    this._baseUrl = options.baseUrl || "";
-    this._headers = options.headers || {
-      "Content-Type": "application/json",
-      Authorization:
-        "Bearer olu5NPakWYl5j4sI_KYgZ7AcybIN-B5ke6fyafBQzgGsB7vggw",
-    };
-  }
+  _baseUrl = BASE_URL;
+  _headers = HEADERS;
 
-  setHeader(key, value) {
-    this._headers[key] = value;
-    return this;
-  }
+  constructor() {}
 
   async _fetchJSON(endpoint, options = {}) {
-    let loading = false;
     try {
-      loading = true;
-
       const response = await fetch(this._baseUrl + endpoint, {
         ...options,
         headers: this._headers,
@@ -26,15 +15,13 @@ export class HttpClient {
       if (!response.ok) throw new Error(response.statusText);
 
       if (options.parseResponse !== false && response.status !== 204) {
-        loading = false;
         const data = await response.json();
-        return { data, isLoading: loading };
+        return { data };
       }
 
       return undefined;
     } catch (error) {
-      loading = false;
-      console.log(error);
+      alert(error.message);
     }
   }
 
@@ -44,8 +31,8 @@ export class HttpClient {
       method: "GET",
     });
   }
-  getUserById(endpoint, options = {}) {
-    return this._fetchJSON("/users/" + endpoint, {
+  getUserById(id, options = {}) {
+    return this._fetchJSON("/users/" + id, {
       ...options,
       method: "GET",
     });
