@@ -18,9 +18,6 @@ export class HttpClient {
     try {
       loading = true;
 
-      // const span = document.querySelector("#loading");
-      // span.textContent = "Loading...";
-
       const response = await fetch(this._baseUrl + endpoint, {
         ...options,
         headers: this._headers,
@@ -41,14 +38,20 @@ export class HttpClient {
     }
   }
 
-  get(endpoint, options = {}) {
-    return this._fetchJSON(endpoint, {
+  getAllUsers(options = {}) {
+    return this._fetchJSON("/users", {
+      ...options,
+      method: "GET",
+    });
+  }
+  getUserById(endpoint, options = {}) {
+    return this._fetchJSON("/users/" + endpoint, {
       ...options,
       method: "GET",
     });
   }
 
-  post(endpoint, body, options = {}) {
+  postUser(endpoint, body, options = {}) {
     return this._fetchJSON(endpoint, {
       ...options,
       method: "POST",

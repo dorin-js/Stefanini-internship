@@ -5,7 +5,7 @@ const tableBody = document.querySelector("#data-users");
 const httpClient = new HttpClient({ baseUrl: "https://crudapi.co.uk/api/v1" });
 
 async function fetchUserDetails(id) {
-  const { data: user, isLoading } = await httpClient.get(`/users/${id}`);
+  const { data: user, isLoading } = await httpClient.getUserById(id);
   if (user) console.log(user);
 }
 
@@ -15,7 +15,7 @@ const updateUsersTable = async () => {
 
   loader.classList.add("show-loading");
 
-  const { data: users, isLoading } = await httpClient.get("/users");
+  const { data: users, isLoading } = await httpClient.getAllUsers();
 
   if (!isLoading && users) {
     loader.classList.remove("show-loading");
@@ -51,22 +51,30 @@ const createUserForm = document.getElementById("createUser");
 createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  let formData = new FormData(createUserForm);
-  const formProps = [Object.fromEntries(formData)];
-  // let name = document.createUserForm.name.value;
-  // let surname = document.createUserForm.surnamename.value;
-  // let email = document.createUserForm.email.value;
-  // let birth = document.createUserForm.birth.value;
+  let name = document.forms.form.name.value.trim();
+  let surname = document.forms.form.surname.value.trim();
+  let email = document.forms.form.email.value.trim();
+  let birth = document.forms.form.birth.value.trim();
+  if (name == "" || surname == "" || email == "" || birth == "") return;
+
+  const formProps = [
+    {
+      name,
+      surname,
+      email,
+      birth,
+    },
+  ];
 
   showToaster("Posting...!");
 
-  const response = await httpClient.post("/users", formProps);
+  const response = await httpClient.postUser("/users", formProps);
 
   if (response && !response.isLoading) {
     updateToaster("Posted successfully!", 2000);
   }
-
-  updateLocalTable(formProps[0]);
+  tableBody.innerHTML = "";
+  updateUsersTable();
   createUserForm.reset();
 });
 
@@ -84,15 +92,4 @@ const updateToaster = (message, ms) => {
   setTimeout(() => {
     toaster.remove();
   }, ms);
-};
-const updateLocalTable = (formData) => {
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-          <td>${formData.name}</td>
-          <td>${formData.surname}</td>
-          <td>${formData.email}</td>
-          <td>${formData.birth}</td>
-          <td><button>Show Details</button></td>
-        `;
-  tableBody.prepend(tr);
 };
