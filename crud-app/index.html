@@ -12,7 +12,7 @@
       <h2 class="title">Users</h2>
     </header>
     <main id="main" class="main">
-      <span id="loading" class="show-loading"></span>
+      <div id="loading" class=""></div>
       <table class="display-none" id="users-data-table">
         <thead>
           <tr>
@@ -26,15 +26,15 @@
       </table>
     </main>
     <section>
-      <form name="form" id="createUser">
-        <label for="name">First name:</label><br />
-        <input type="text" id="name" name="name" /><br />
-        <label for="surname">Last name:</label><br />
-        <input type="text" id="surname" name="surname" /><br />
-        <label for="email">Email:</label><br />
-        <input type="email" id="email" name="email" /><br />
-        <label for="birth">Date of birth:</label><br />
-        <input type="birth" id="birth" name="birth" /><br />
+      <form name="form" id="createUser" class="create-user-form">
+        <label for="name">First name:</label>
+        <input type="text" id="name" name="name" />
+        <label for="surname">Last name:</label>
+        <input type="text" id="surname" name="surname" />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" />
+        <label for="birth">Date of birth:</label>
+        <input type="birth" id="birth" name="birth" />
         <button type="submit" id="create-user">Create user</button>
       </form>
     </section>
