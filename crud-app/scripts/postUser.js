@@ -2,8 +2,15 @@ import { httpClient, updateUsersTable } from "../app.js";
 import { showToaster, updateToaster } from "./toaster.js";
 
 const tableBody = document.querySelector("#data-users");
-
+const closeIcon = document.querySelector(".close-icon");
 const createUserForm = document.getElementById("createUser");
+const openCreateModalButton = document.getElementById("open-create-modal");
+
+openCreateModalButton.addEventListener("click", () => {
+  createUserForm.classList.remove("display-none");
+});
+closeIcon.addEventListener("click", hideModal());
+
 createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -32,4 +39,9 @@ createUserForm.addEventListener("submit", async (e) => {
   tableBody.innerHTML = "";
   updateUsersTable();
   createUserForm.reset();
+  hideModal();
 });
+
+function hideModal() {
+  createUserForm.classList.add("display-none");
+}
