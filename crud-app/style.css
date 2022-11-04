@@ -1,0 +1,88 @@
+/* @import url(https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic); */
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
+body {
+  /* background: #ebe8d7; */
+  color: #485162;
+  font-family: "Inter", "Roboto Mono";
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.display-none {
+  display: none;
+}
+.toaster {
+  position: absolute;
+  top: 4rem;
+  right: 4rem;
+  padding: 1rem 3rem;
+  font-size: 1.2em;
+  background: rgba(71, 243, 94, 0.785);
+  border: 1px solid rgba(71, 243, 94, 0.984);
+  border-radius: 7px;
+}
+.show-loading {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #55d938;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#users-data-table {
+  width: 100%;
+  text-align: left;
+}
+#users-data-table td {
+  padding: 5px;
+}
+.modal {
+  position: relative;
+  width: 100%;
+}
+.create-user-form {
+  min-width: 300px;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem;
+  background: #fff;
+  -webkit-box-shadow: 0px 3px 10px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 3px 10px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 3px 10px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 2px;
+}
+.create-user-form .close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  cursor: pointer;
+  padding: 2px 5px;
+}
+.create-user-form .close-icon:hover {
+  background-color: rgba(204, 204, 204, 0.247);
+  border-radius: 3px;
+}
+.create-user-form input {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+}
