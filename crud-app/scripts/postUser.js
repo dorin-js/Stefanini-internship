@@ -14,10 +14,10 @@ closeIcon.addEventListener("click", () => hideModal());
 createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  let name = document.forms.form.name.value.trim();
-  let surname = document.forms.form.surname.value.trim();
-  let email = document.forms.form.email.value.trim();
-  let birth = document.forms.form.birth.value.trim();
+  const name = document.forms.form.name.value.trim();
+  const surname = document.forms.form.surname.value.trim();
+  const email = document.forms.form.email.value.trim();
+  const birth = document.forms.form.birth.value.trim();
   if (name == "" || surname == "" || email == "" || birth == "") return;
 
   const formProps = [
@@ -31,15 +31,19 @@ createUserForm.addEventListener("submit", async (e) => {
 
   showToaster("Posting...!");
 
-  const response = await httpClient.postUser("/users", formProps);
+  try {
+    const response = await httpClient.postUser("/users", formProps);
 
-  if (response && !response.isLoading) {
-    updateToaster("Posted successfully!", 2000);
+    if (response) {
+      updateToaster("Posted successfully!", 2000);
+      tableBody.innerHTML = "";
+      updateUsersTable();
+      createUserForm.reset();
+      hideModal();
+    }
+  } catch (error) {
+    updateToaster("error", `Error! ${error.message}`, 5000);
   }
-  tableBody.innerHTML = "";
-  updateUsersTable();
-  createUserForm.reset();
-  hideModal();
 });
 
 function hideModal() {

@@ -2,7 +2,6 @@ import { HttpClient } from "./service/httpClient.js";
 import { selectShowUserDetailsButtons } from "./scripts/showUserDetails.js";
 import { displayLoader, removeLoader } from "./scripts/displayLoader.js";
 import { createTableRow } from "./scripts/createTableRow.js";
-import { showToaster, updateToaster } from "./scripts/toaster.js";
 
 document.addEventListener("DOMContentLoaded", updateUsersTable);
 
@@ -15,19 +14,23 @@ const main = document.querySelector("#main");
 export async function updateUsersTable() {
   displayLoader(main);
 
-  const { data: users } = await httpClient.getAllUsers();
+  try {
+    const { data: users } = await httpClient.getAllUsers();
 
-  if (users) {
-    removeLoader();
+    if (users) {
+      removeLoader();
 
-    let fragment = new DocumentFragment();
+      let fragment = new DocumentFragment();
 
-    users.items.forEach((user) => {
-      fragment.append(createTableRow(user));
-    });
+      users.items.forEach((user) => {
+        fragment.append(createTableRow(user));
+      });
 
-    tableBody.append(fragment);
-    usersTable.classList.remove("display-none");
-    selectShowUserDetailsButtons(users.items);
+      tableBody.append(fragment);
+      usersTable.classList.remove("display-none");
+      selectShowUserDetailsButtons(users.items);
+    }
+  } catch (error) {
+    alert(error.message);
   }
 }

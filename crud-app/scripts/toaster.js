@@ -5,10 +5,14 @@ export const showToaster = (message) => {
   document.body.appendChild(toaster);
 };
 
-export const updateToaster = (message, ms) => {
+export const updateToaster = (type = "ok", message, ms) => {
   const toaster = document.querySelector(".toaster");
-  if (toaster && toaster.textContent == "Posting...!")
-    toaster.textContent = message;
+  if (toaster && toaster.textContent != "") toaster.textContent = message;
+  if (type == "error") {
+    console.log("error");
+    toaster.style =
+      "background: rgba(255, 29, 29, 0.785); border: 1px solid rgba(255, 29, 29, 0.585)";
+  }
   setTimeout(() => {
     toaster.remove();
   }, ms);

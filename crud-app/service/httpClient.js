@@ -6,23 +6,19 @@ export class HttpClient {
   constructor() {}
 
   async _fetchJSON(endpoint, options = {}) {
-    try {
-      const response = await fetch(this._baseUrl + endpoint, {
-        ...options,
-        headers: this._headers,
-      });
+    const response = await fetch(this._baseUrl + endpoint, {
+      ...options,
+      headers: this._headers,
+    });
 
-      if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) throw new Error(response.statusText);
 
-      if (options.parseResponse !== false && response.status !== 204) {
-        const data = await response.json();
-        return { data };
-      }
-
-      return undefined;
-    } catch (error) {
-      alert(error.message);
+    if (options.parseResponse !== false && response.status !== 204) {
+      const data = await response.json();
+      return { data };
     }
+
+    return undefined;
   }
 
   getAllUsers(options = {}) {
