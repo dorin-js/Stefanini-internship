@@ -9,7 +9,7 @@ const openCreateModalButton = document.getElementById("open-create-modal");
 openCreateModalButton.addEventListener("click", () => {
   createUserForm.classList.remove("display-none");
 });
-closeIcon.addEventListener("click", hideModal());
+closeIcon.addEventListener("click", () => hideModal());
 
 createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
