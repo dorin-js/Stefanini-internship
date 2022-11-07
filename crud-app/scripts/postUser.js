@@ -35,14 +35,14 @@ createUserForm.addEventListener("submit", async (e) => {
     const response = await httpClient.postUser("/users", formProps);
 
     if (response) {
-      updateToaster("Posted successfully!", 2000);
+      updateToaster("ok", "Posted successfully!", 2000);
       tableBody.innerHTML = "";
       updateUsersTable();
       createUserForm.reset();
       hideModal();
     }
   } catch (error) {
-    updateToaster("error", `Error! ${error.message}`, 5000);
+    updateToaster("error", `Error! ${error.message || error.name}`, 5000);
   }
 });
 
