@@ -1,28 +1,17 @@
 import React, { useState } from "react";
-import RenderInWindow from "./RenderInWindow";
 
-const UserTableRow = ({ user }) => {
-  const [isOn, setOn] = useState(false);
-
-  const showDetails = (user) => {
-    console.log(user._uuid);
-    setOn(!isOn);
-  };
+const UserTableRow = ({ user: { name, surname, email, birth } }) => {
+  const showDetails = (user) => {};
 
   return (
     <tr>
-      <td>{user.name}</td>
-      <td>{user.surname}</td>
-      <td>{user.email}</td>
-      <td>{user.birth}</td>
+      <td>{name}</td>
+      <td>{surname}</td>
+      <td>{email}</td>
+      <td>{birth}</td>
       <td>
-        <button onClick={() => showDetails(user)}>Show Details</button>
+        <button onClick={() => {}}>Show Details</button>
       </td>
-      {isOn && (
-        <RenderInWindow isOn={isOn} setOn={setOn}>
-          <div>Awesome content!</div>
-        </RenderInWindow>
-      )}
     </tr>
   );
 };

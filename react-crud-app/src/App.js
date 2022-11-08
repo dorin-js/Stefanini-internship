@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "./App.css";
 import Error from "./components/Error";
-import Loader from "./components/Loader";
 import UsersTable from "./components/UsersTable";
 import UserTableRow from "./components/UserTableRow";
-import { usersApi } from "./services/usersApi.js";
+import { UsersApi } from "./services/usersApi.js";
 
-const usersApiInstance = new usersApi();
+const usersApiInstance = new UsersApi();
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -26,16 +25,19 @@ const App = () => {
 
     setLoading(false);
   };
+
   useEffect(() => {
     getAllUsers();
   }, []);
 
   if (loading) {
-    return <Loader loadingState={loading} />;
+    return <h3>Loading...</h3>;
   }
+
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <div className="App">
       <h2 className="title">Users data base</h2>
