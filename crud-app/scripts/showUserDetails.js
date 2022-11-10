@@ -25,7 +25,7 @@ export function displayDetailsForAUser(user) {
   let fragment = new DocumentFragment();
 
   const fullName = document.createElement("h4");
-  fullName.textContent = `${user.name} ${user.surname}`;
+  fullName.textContent = `${user.name} ${user.lastname}`;
   fragment.prepend(fullName);
 
   const information = Object.entries(user);

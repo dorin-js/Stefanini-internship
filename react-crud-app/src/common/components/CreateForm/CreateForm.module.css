@@ -1,0 +1,7 @@
+.createUserForm input {
+  display: block;
+  margin: 25px auto;
+  padding: 4px;
+  width: 100%;
+  max-width: 100%;
+}

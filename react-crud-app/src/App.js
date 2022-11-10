@@ -1,33 +1,19 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect } from "react";
 import "./App.css";
-import Error from "./components/Error";
-import UsersTable from "./components/UsersTable";
-import UserTableRow from "./components/UserTableRow";
-import { UsersApi } from "./services/usersApi.js";
-
-const usersApiInstance = new UsersApi();
+import Error from "./common/components/Error";
+import UsersTable from "./common/components/UsersTable";
+import CreateUser from "./common/screens/CreateUser";
+import { useFetch } from "./common/hooks/useFetch";
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const getAllUsers = async () => {
-    setLoading(true);
-
-    try {
-      const data = await usersApiInstance.getAllUsers();
-      setUsers(data.items);
-    } catch (error) {
-      setError(error.message);
-    }
-
-    setLoading(false);
-  };
+  const { loading, data: users, error, execute } = useFetch();
+  // let filtered = [];
+  // if (users) {
+  //   filtered = [...users];
+  // }
 
   useEffect(() => {
-    getAllUsers();
+    execute("get");
   }, []);
 
   if (loading) {
@@ -41,11 +27,8 @@ const App = () => {
   return (
     <div className="App">
       <h2 className="title">Users data base</h2>
-      <UsersTable>
-        {users.map((user) => (
-          <UserTableRow key={user._uuid} user={user} />
-        ))}
-      </UsersTable>
+      <CreateUser />
+      <UsersTable users={users} />
     </div>
   );
 };
