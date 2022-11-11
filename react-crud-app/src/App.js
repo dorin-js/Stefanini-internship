@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { useFetch } from "./common/hooks/useFetch";
 import Error from "./common/components/Error";
 import UsersTable from "./common/components/UsersTable/UsersTable";
 import CreateUser from "./common/screens/CreateUser";
+import { UsersApi } from "./common/services/usersApi";
+
+const userApi = new UsersApi();
 
 const App = () => {
   const [users, setUsers] = useState([]);
-  const { loading, error, execute: executeGetUsers } = useFetch(setUsers);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const executeGetUsers = async () => {
+    try {
+      setLoading(true);
+      userApi.getAllUsers().then((res) => {
+        setUsers(res.items);
+        setLoading(false);
+      });
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    executeGetUsers("get");
+    executeGetUsers();
   }, []);
 
   if (loading) {

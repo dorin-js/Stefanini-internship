@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import classes from "./UsersTable.module.css";
-import { useFetch } from "../../hooks/useFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import Portal from "../Portal";
 import ShowUserDetails from "../ShowUserDetails";
+import { UsersApi } from "../../services/usersApi";
+
+const userApi = new UsersApi();
 
 const UsersTable = ({ users, setUsers }) => {
   const [displayedUser, setDisplayedUser] = useState(null);
-  const { execute: executeDeleteUser } = useFetch(setUsers);
+  const [loading, setLoading] = useState();
+
+  const executeDeleteUser = async (id) => {
+    try {
+      userApi.deleteUserById(id).then(() => {
+        setUsers((prevState) =>
+          [...prevState].filter((user) => user._uuid !== id)
+        );
+      });
+    } catch (error) {
+      // setError(error.message);
+      console.log(error.message);
+    }
+  };
 
   const onClose = () => setDisplayedUser(null);
 
@@ -41,7 +56,10 @@ const UsersTable = ({ users, setUsers }) => {
                     />
                     <Button
                       value="Delete"
-                      onClick={() => executeDeleteUser("delete", _uuid)}
+                      onClick={() => {
+                        setLoading(true);
+                        executeDeleteUser(_uuid).then(() => setLoading(false));
+                      }}
                     />
                   </div>
                 </td>

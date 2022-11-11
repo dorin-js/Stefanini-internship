@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./CreateForm.module.css";
 import Button from "../Button/Button";
-import { useFetch } from "../../hooks/useFetch";
 import { useRef } from "react";
+import { UsersApi } from "../../services/usersApi";
 
 const defaultFormData = {
   name: "",
@@ -11,10 +11,22 @@ const defaultFormData = {
   birth: "",
 };
 
+const userApi = new UsersApi();
+
 const CreateForm = ({ setOn, setUsers }) => {
   const [form, setForm] = useState(defaultFormData);
+  const [error, setError] = useState(null);
   const inputRef = useRef(null);
-  const { execute: executePostNewUser } = useFetch(setUsers);
+
+  const executePostNewUser = async (body) => {
+    try {
+      userApi.postUser(body).then(({ items }) => {
+        setUsers((prevState) => [...items, ...prevState]);
+      });
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   // useEffect(() => {
   //   console.log("mounted");
@@ -33,7 +45,7 @@ const CreateForm = ({ setOn, setUsers }) => {
 
   const onFormSubmited = (e) => {
     e.preventDefault();
-    executePostNewUser("post", form);
+    executePostNewUser(form);
     setOn(false);
   };
 
