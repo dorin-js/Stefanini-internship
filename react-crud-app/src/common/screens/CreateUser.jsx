@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import Button from "../components/Button/Button";
 import CreateForm from "../components/CreateForm/CreateForm";
-import Modal from "../components/Modal";
+import Modal from "../components/Modal/Modal";
 import Portal from "../components/Portal";
 
-const CreateUser = () => {
+const CreateUser = ({ setUsers }) => {
   const [on, setOn] = useState(false);
-  const openForm = () => setOn(true);
+  const toggle = () => setOn(!on);
   return (
     <>
-      <Button content="New user" onClick={openForm} />
+      <Button value="New user" onClick={toggle} />
       {on && (
         <Portal>
-          <Modal setOn={setOn}>
-            <CreateForm setOn={setOn} />
+          <Modal onClose={toggle}>
+            <CreateForm setOn={setOn} setUsers={setUsers} />
           </Modal>
         </Portal>
       )}

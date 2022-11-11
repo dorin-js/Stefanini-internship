@@ -1,20 +1,18 @@
 import React, { useState } from "react";
+import classes from "./UsersTable.module.css";
+import { useFetch } from "../../hooks/useFetch";
 import Button from "../Button/Button";
-import Modal from "../Modal";
+import Modal from "../Modal/Modal";
 import Portal from "../Portal";
 import ShowUserDetails from "../ShowUserDetails";
-import classes from "./UsersTable.module.css";
 
-const UsersTable = ({ users }) => {
+const UsersTable = ({ users, setUsers }) => {
   const [displayedUser, setDisplayedUser] = useState(null);
-  const [on, setOn] = useState(false);
+  const { execute: executeDeleteUser } = useFetch(setUsers);
+
+  const onClose = () => setDisplayedUser(null);
 
   const fields = ["Name", "Last Name", "Email", "Date of Birth"];
-
-  const showUser = (user) => {
-    setOn(true);
-    setDisplayedUser(user);
-  };
 
   return (
     <main className={classes.main}>
@@ -38,10 +36,13 @@ const UsersTable = ({ users }) => {
                 <td>
                   <div className="buttonsContainer">
                     <Button
-                      content="Show Details"
-                      onClick={() => showUser(user)}
+                      value="Show Details"
+                      onClick={() => setDisplayedUser(user)}
                     />
-                    <Button content="Delete" />
+                    <Button
+                      value="Delete"
+                      onClick={() => executeDeleteUser("delete", _uuid)}
+                    />
                   </div>
                 </td>
               </tr>
@@ -49,9 +50,9 @@ const UsersTable = ({ users }) => {
           })}
         </tbody>
       </table>
-      {on && (
+      {displayedUser && (
         <Portal>
-          <Modal setOn={setOn}>
+          <Modal onClose={onClose}>
             <ShowUserDetails user={displayedUser} />
           </Modal>
         </Portal>

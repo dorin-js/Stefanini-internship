@@ -1,19 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import Error from "./common/components/Error";
-import UsersTable from "./common/components/UsersTable";
-import CreateUser from "./common/screens/CreateUser";
 import { useFetch } from "./common/hooks/useFetch";
+import Error from "./common/components/Error";
+import UsersTable from "./common/components/UsersTable/UsersTable";
+import CreateUser from "./common/screens/CreateUser";
 
 const App = () => {
-  const { loading, data: users, error, execute } = useFetch();
-  // let filtered = [];
-  // if (users) {
-  //   filtered = [...users];
-  // }
+  const [users, setUsers] = useState([]);
+  const { loading, error, execute: executeGetUsers } = useFetch(setUsers);
 
   useEffect(() => {
-    execute("get");
+    executeGetUsers("get");
   }, []);
 
   if (loading) {
@@ -27,8 +24,8 @@ const App = () => {
   return (
     <div className="App">
       <h2 className="title">Users data base</h2>
-      <CreateUser />
-      <UsersTable users={users} />
+      <CreateUser setUsers={setUsers} />
+      <UsersTable users={users} setUsers={setUsers} />
     </div>
   );
 };

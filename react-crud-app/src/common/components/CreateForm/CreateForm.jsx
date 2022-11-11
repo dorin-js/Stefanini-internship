@@ -1,28 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./CreateForm.module.css";
 import Button from "../Button/Button";
 import { useFetch } from "../../hooks/useFetch";
+import { useRef } from "react";
 
-const defaultData = {
+const defaultFormData = {
   name: "",
   lastname: "",
   email: "",
   birth: "",
 };
 
-const CreateForm = ({ setOn }) => {
-  const [form, setFrom] = useState(defaultData);
-  const { loading, error, execute } = useFetch();
+const CreateForm = ({ setOn, setUsers }) => {
+  const [form, setForm] = useState(defaultFormData);
+  const inputRef = useRef(null);
+  const { execute: executePostNewUser } = useFetch(setUsers);
+
+  // useEffect(() => {
+  //   console.log("mounted");
+  //   inputRef.current.focus();
+
+  //   if (inputRef.current) {
+  //     console.log("if ref", true);
+  //     inputRef.current.focus();
+  //   }
+  //   return () => console.log("unmounted");
+  // }, []);
 
   const onValueChanged = (value) => {
-    setFrom({ ...form, ...value });
+    setForm({ ...form, ...value });
   };
 
   const onFormSubmited = (e) => {
     e.preventDefault();
-    console.log("init", loading);
-    execute("post", form);
-    console.log("done", loading);
+    executePostNewUser("post", form);
     setOn(false);
   };
 
@@ -33,14 +44,13 @@ const CreateForm = ({ setOn }) => {
       onSubmit={onFormSubmited}
     >
       <input
-        type="text"
+        ref={inputRef}
         required
         placeholder="First Name"
         value={form.name}
         onChange={(e) => onValueChanged({ name: e.target.value })}
       />
-      {/* <input
-        type="text"
+      <input
         required
         placeholder="Last Name"
         value={form.lastname}
@@ -59,12 +69,11 @@ const CreateForm = ({ setOn }) => {
         placeholder="Date of birth"
         value={form.birth}
         onChange={(e) => onValueChanged({ birth: e.target.value })}
-      /> */}
+      />
       <div className="buttonsContainer">
-        <Button type="submit" content="Create User" />
-        <Button onClick={() => setOn(false)} content="Cancel" />
+        <Button type="submit" value="Create User" />
+        <Button onClick={() => setOn(false)} value="Cancel" />
       </div>
-      {loading && <h3>Posting...</h3>}
     </form>
   );
 };

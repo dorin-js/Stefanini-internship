@@ -1,9 +1,6 @@
 import { BASE_URL, HEADERS } from "./constants.js";
 
 export class UsersApi {
-  // constructor(BASE_URL, headers) {
-  //   this.baseUrl = BASE_URL
-  // }
   async _fetchJSON(endpoint, options = {}) {
     const response = await fetch(endpoint, {
       ...options,
@@ -27,6 +24,11 @@ export class UsersApi {
     return this._fetchJSON(`${BASE_URL}/users`, {
       method: "POST",
       body: JSON.stringify([body]),
+    });
+  }
+  deleteUserById(id) {
+    return this._fetchJSON(`${BASE_URL}/users/${id}`, {
+      method: "DELETE",
     });
   }
 }
