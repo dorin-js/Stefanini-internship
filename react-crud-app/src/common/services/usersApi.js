@@ -1,34 +1,42 @@
-import { BASE_URL, HEADERS } from "./constants.js";
+import { BASE_URL, HEADERS } from './constants';
 
-export class UsersApi {
-  async _fetchJSON(endpoint, options = {}) {
-    const response = await fetch(endpoint, {
-      ...options,
-      headers: HEADERS,
-    });
+class UsersApi {
+  constructor() {
+    this.http = async (endpoint, options = {}) => {
+      const response = await fetch(endpoint, {
+        ...options,
+        headers: HEADERS,
+      });
 
-    return await response.json();
+      return response.json();
+    };
   }
 
   getAllUsers() {
-    return this._fetchJSON(`${BASE_URL}/users`, {
-      method: "GET",
+    return this.http(`${BASE_URL}/users`, {
+      method: 'GET',
     });
   }
+
   getUserById(id) {
-    return this._fetchJSON(`${BASE_URL}/users${id}`, {
-      method: "GET",
+    return this.http(`${BASE_URL}/users${id}`, {
+      method: 'GET',
     });
   }
+
   postUser(body) {
-    return this._fetchJSON(`${BASE_URL}/users`, {
-      method: "POST",
+    return this.http(`${BASE_URL}/users`, {
+      method: 'POST',
       body: JSON.stringify([body]),
     });
   }
+
   deleteUserById(id) {
-    return this._fetchJSON(`${BASE_URL}/users/${id}`, {
-      method: "DELETE",
+    return this.http(`${BASE_URL}/users/${id}`, {
+      method: 'DELETE',
     });
   }
 }
+
+const userApi = new UsersApi();
+export default userApi;
