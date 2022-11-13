@@ -1,71 +1,47 @@
-import React, { useState } from "react";
-import classes from "./UsersTable.module.css";
-import Button from "../Button/Button";
-import Modal from "../Modal/Modal";
-import Portal from "../Portal";
-import ShowUserDetails from "../ShowUserDetails";
-import { UsersApi } from "../../services/usersApi";
+/* eslint-disable no-underscore-dangle */
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import classes from './UsersTable.module.css';
+import UserRow from './UserRow';
+import { Modal, Portal, ShowUserDetails } from '..';
+import userApi from '../../services/usersApi';
 
-const userApi = new UsersApi();
-
-const UsersTable = ({ users, setUsers }) => {
+const UsersTable = ({ users, onDeleteUser }) => {
   const [displayedUser, setDisplayedUser] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState();
 
-  const executeDeleteUser = async (id) => {
-    try {
-      userApi.deleteUserById(id).then(() => {
-        setUsers((prevState) =>
-          [...prevState].filter((user) => user._uuid !== id)
-        );
-      });
-    } catch (error) {
-      // setError(error.message);
-      console.log(error.message);
-    }
+  const deleteUser = async (id) => {
+    userApi.deleteUserById(id)
+      .then(() => {
+        onDeleteUser((prevState) => [...prevState].filter((user) => user._uuid !== id));
+      })
+      .catch((err) => { console.log(err); });
   };
 
   const onClose = () => setDisplayedUser(null);
-
-  const fields = ["Name", "Last Name", "Email", "Date of Birth"];
 
   return (
     <main className={classes.main}>
       <table className={classes.usersTable}>
         <thead>
           <tr>
-            {fields.map((field, index) => (
-              <th key={field + index}>{field}</th>
-            ))}
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => {
-            const { _uuid, name, lastname, email, birth } = user;
-            return (
-              <tr key={_uuid}>
-                <td>{name}</td>
-                <td>{lastname}</td>
-                <td>{email}</td>
-                <td>{birth}</td>
-                <td>
-                  <div className="buttonsContainer">
-                    <Button
-                      value="Show Details"
-                      onClick={() => setDisplayedUser(user)}
-                    />
-                    <Button
-                      value="Delete"
-                      onClick={() => {
-                        setLoading(true);
-                        executeDeleteUser(_uuid).then(() => setLoading(false));
-                      }}
-                    />
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+          {users.map((user) => (
+            <UserRow
+              key={user._uuid}
+              user={user}
+              deleteUser={deleteUser}
+              setDisplayedUser={setDisplayedUser}
+              setLoading={setLoading}
+            />
+          ))}
         </tbody>
       </table>
       {displayedUser && (
@@ -78,4 +54,19 @@ const UsersTable = ({ users, setUsers }) => {
     </main>
   );
 };
+
+UsersTable.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    lastname: PropTypes.string,
+    email: PropTypes.string,
+    birth: PropTypes.string,
+  })),
+  onDeleteUser: PropTypes.func,
+};
+UsersTable.defaultProps = {
+  users: [],
+  onDeleteUser: () => undefined,
+};
+
 export default UsersTable;

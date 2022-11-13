@@ -1,24 +1,31 @@
-import React, { useState } from "react";
-import Button from "../components/Button/Button";
-import CreateForm from "../components/CreateForm/CreateForm";
-import Modal from "../components/Modal/Modal";
-import Portal from "../components/Portal";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  Button, CreateForm, Modal, Portal,
+} from '../components';
 
-const CreateUser = ({ setUsers }) => {
-  const [on, setOn] = useState(false);
-  const toggle = () => setOn(!on);
+const CreateUser = ({ onCreateUser }) => {
+  const [visible, setVisible] = useState(false);
+  const toggle = () => setVisible((currentState) => !currentState);
   return (
     <>
       <Button value="New user" onClick={toggle} />
-      {on && (
+      {visible && (
         <Portal>
-          <Modal onClose={toggle}>
-            <CreateForm setOn={setOn} setUsers={setUsers} />
+          <Modal title="Add new user" onClose={toggle}>
+            <CreateForm setVisible={setVisible} onCreateUser={onCreateUser} />
           </Modal>
         </Portal>
       )}
     </>
   );
+};
+
+CreateUser.propTypes = {
+  onCreateUser: PropTypes.func,
+};
+CreateUser.defaultProps = {
+  onCreateUser: () => {},
 };
 
 export default CreateUser;
