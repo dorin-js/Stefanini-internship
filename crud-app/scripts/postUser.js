@@ -15,15 +15,15 @@ createUserForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.forms.form.name.value.trim();
-  const surname = document.forms.form.surname.value.trim();
+  const lastname = document.forms.form.lastname.value.trim();
   const email = document.forms.form.email.value.trim();
   const birth = document.forms.form.birth.value.trim();
-  if (name == "" || surname == "" || email == "" || birth == "") return;
+  if (name == "" || lastname == "" || email == "" || birth == "") return;
 
   const formProps = [
     {
       name,
-      surname,
+      lastname,
       email,
       birth,
     },
