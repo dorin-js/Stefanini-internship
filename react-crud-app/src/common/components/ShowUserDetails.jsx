@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ShowUserDetails = ({ user }) => <h3>{user?.name}</h3>;
+const UserDetails = ({ user }) => <h3>{user?.name}</h3>;
 
 ShowUserDetails.propTypes = {
   user: PropTypes.shape({

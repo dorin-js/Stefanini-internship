@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classes from './UsersTable.module.css';
@@ -8,14 +7,15 @@ import userApi from '../../services/usersApi';
 
 const UsersTable = ({ users, onDeleteUser }) => {
   const [displayedUser, setDisplayedUser] = useState(null);
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState();
 
   const deleteUser = async (id) => {
+    setLoading(true)
     userApi.deleteUserById(id)
       .then(() => {
         onDeleteUser((prevState) => [...prevState].filter((user) => user._uuid !== id));
       })
+      .then(() => setLoading(false))
       .catch((err) => { console.log(err); });
   };
 
@@ -51,6 +51,7 @@ const UsersTable = ({ users, onDeleteUser }) => {
           </Modal>
         </Portal>
       )}
+      error
     </main>
   );
 };
