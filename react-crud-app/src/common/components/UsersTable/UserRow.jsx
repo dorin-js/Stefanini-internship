@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 
 const UserRow = ({
-  user, deleteUser, setDisplayedUser, setLoading,
+  user, onDelete, deleteUser, setDisplayedUser, setLoading,
 }) => {
   const {
-    _uuid, name, lastname, email, birth,
+    _uuid ???, name, lastname, email, birth,
   } = user;
 
   return (
@@ -24,8 +24,8 @@ const UserRow = ({
           <Button
             value="Delete"
             onClick={() => {
-              setLoading(true);
-              deleteUser(_uuid).then(() => setLoading(false));
+              setLoading(true); 
+              deleteUser(_uuid).then(() => setLoading(false)); // Error
             }}
           />
         </div>

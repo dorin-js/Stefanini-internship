@@ -14,13 +14,14 @@ const App = () => {
     userApi.getAllUsers()
       .then((res) => {
         setUsers(res.items);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+        // setLoading(false);
+      })
+      .finally(() => setLoading(false));
+  }, []); // >> deps?
 
   useEffect(() => {
     getUsers();

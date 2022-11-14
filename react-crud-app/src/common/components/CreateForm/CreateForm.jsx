@@ -11,19 +11,20 @@ const defaultFormData = {
   birth: '',
 };
 
-const CreateForm = ({ setVisible, onCreateUser }) => {
+const CreateForm = ({ onSubmited, onCreateUser }) => {
   const [form, setForm] = useState(defaultFormData);
-  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
 
   const createUser = (body) => {
     userApi.postUser(body)
       .then(({ items }) => {
         onCreateUser((prevState) => [...items, ...prevState]);
-        setVisible(false);
+        onSubmited()
+        // setVisible(false);
       })
       .catch((err) => {
-        setError(err);
+        onError(error)
+        // setError(err);
       });
   };
 
