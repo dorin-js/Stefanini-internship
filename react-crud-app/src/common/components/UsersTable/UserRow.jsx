@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
+import userApi from '../../services/usersApi';
 
 const UserRow = ({
-  user, deleteUser, setDisplayedUser, setLoading,
+  user, onDelete,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const {
-    _uuid, name, lastname, email, birth,
+    _uuid: id, name, lastname, email, birth,
   } = user;
 
+  const deleteUser = async () => {
+    setLoading(true);
+    try {
+      await userApi.deleteUserById(id);
+      onDelete(id);
+    } catch (e) {
+      // handle error locally
+    }
+    setLoading(false);
+  };
   return (
     <tr>
       <td>{name}</td>
@@ -19,14 +32,11 @@ const UserRow = ({
         <div className="buttonsContainer">
           <Button
             value="Show Details"
-            onClick={() => setDisplayedUser(user)}
+          // onClick={() => setDisplayedUser(user)}
           />
           <Button
-            value="Delete"
-            onClick={() => {
-              setLoading(true);
-              deleteUser(_uuid).then(() => setLoading(false));
-            }}
+            value={loading ? 'Deleting...' : 'Delete'}
+            onClick={deleteUser}
           />
         </div>
       </td>
@@ -42,15 +52,11 @@ UserRow.propTypes = {
     email: PropTypes.string,
     birth: PropTypes.string,
   }),
-  deleteUser: PropTypes.func,
-  setDisplayedUser: PropTypes.func,
-  setLoading: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 UserRow.defaultProps = {
   user: {},
-  setLoading: () => undefined,
-  setDisplayedUser: () => undefined,
-  deleteUser: () => undefined,
+  onDelete: null,
 };
 
 export default UserRow;

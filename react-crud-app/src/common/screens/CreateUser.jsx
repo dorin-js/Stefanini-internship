@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button, CreateForm, Modal, Portal,
-} from '../components';
+import { Button } from '../components/Button';
+import { Modal } from '../components/Modal';
+import { UserForm } from '../components/UserForm';
+import Portal from '../components/Portal';
 
 const CreateUser = ({ onCreateUser }) => {
   const [visible, setVisible] = useState(false);
@@ -13,7 +14,7 @@ const CreateUser = ({ onCreateUser }) => {
       {visible && (
         <Portal>
           <Modal title="Add new user" onClose={toggle}>
-            <CreateForm setVisible={setVisible} onCreateUser={onCreateUser} />
+            <UserForm setVisible={setVisible} onCreateUser={onCreateUser} />
           </Modal>
         </Portal>
       )}
@@ -22,10 +23,7 @@ const CreateUser = ({ onCreateUser }) => {
 };
 
 CreateUser.propTypes = {
-  onCreateUser: PropTypes.func,
-};
-CreateUser.defaultProps = {
-  onCreateUser: () => {},
+  onCreateUser: PropTypes.func.isRequired,
 };
 
 export default CreateUser;
