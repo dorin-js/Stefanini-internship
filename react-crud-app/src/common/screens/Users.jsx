@@ -1,20 +1,24 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import userApi from '../services/usersApi';
 import Error from '../components/Error';
 import CreateUser from './CreateUser';
-import { UsersTable, UserRow } from '../components/UsersTable';
+import { UsersTable, UserRow } from '../../features/users/UsersTable';
+import Portal from '../components/Portal';
+import { Modal } from '../components/Modal';
 
-export const Users = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [details, setDetails] = useState();
 
   const getUsers = useCallback(async () => {
     setLoading(true);
     try {
       const { items } = await userApi.getAllUsers();
-      setUsers(items); // refactor
+      setUsers(items);
     } catch (e) {
       setError(e.message);
     }
@@ -29,6 +33,14 @@ export const Users = () => {
     setUsers((prevUsers) => [...prevUsers].filter((user) => user._uuid !== id));
   };
 
+  const onCreateUser = (items) => {
+    setUsers((prevState) => [...items, ...prevState]);
+  };
+
+  const onUserDetails = (userData) => {
+    setDetails(userData);
+  };
+
   if (loading) {
     return <h3>Loading...</h3>;
   }
@@ -39,7 +51,7 @@ export const Users = () => {
 
   return (
     <>
-      <CreateUser onCreateUser={setUsers} />
+      <CreateUser onCreate={onCreateUser} />
       <UsersTable>
         {users.map((user) => (
           <UserRow
@@ -47,16 +59,22 @@ export const Users = () => {
             key={user._uuid}
             user={user}
             onDelete={onDeleteUser}
+            onUserDetails={onUserDetails}
           />
         ))}
       </UsersTable>
-      {/* {displayedUser && (
+      {details && (
         <Portal>
-          <Modal onClose={onClose}>
-            <UserForm user={displayedUser} />
+          <Modal onClose={() => setDetails(null)}>
+            <h5>{details.name}</h5>
+            <h5>{details.lastname}</h5>
+            <h5>{details.email}</h5>
+            <h5>{details.birth}</h5>
           </Modal>
         </Portal>
-      )} */}
+      )}
     </>
   );
 };
+
+export default Users;

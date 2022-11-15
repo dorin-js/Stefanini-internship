@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Users } from './common/screens/Users';
+import Users from './common/screens/Users';
 
 const App = () => (
   <div className="App">

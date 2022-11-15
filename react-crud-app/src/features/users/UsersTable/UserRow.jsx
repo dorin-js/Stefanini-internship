@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../Button/Button';
-import userApi from '../../services/usersApi';
+import userApi from '../../../common/services/usersApi';
+import { Button } from '../../../common/components/Button';
 
-const UserRow = ({
-  user, onDelete,
-}) => {
+const UserRow = ({ user, onDelete, onUserDetails }) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -22,6 +20,7 @@ const UserRow = ({
     }
     setLoading(false);
   };
+
   return (
     <tr>
       <td>{name}</td>
@@ -32,11 +31,12 @@ const UserRow = ({
         <div className="buttonsContainer">
           <Button
             value="Show Details"
-          // onClick={() => setDisplayedUser(user)}
+            onClick={() => onUserDetails(user)}
           />
           <Button
             value={loading ? 'Deleting...' : 'Delete'}
             onClick={deleteUser}
+            disabled={loading && true}
           />
         </div>
       </td>
@@ -53,10 +53,12 @@ UserRow.propTypes = {
     birth: PropTypes.string,
   }),
   onDelete: PropTypes.func,
+  onUserDetails: PropTypes.func,
 };
 UserRow.defaultProps = {
   user: {},
-  onDelete: null,
+  onDelete: undefined,
+  onUserDetails: undefined,
 };
 
 export default UserRow;

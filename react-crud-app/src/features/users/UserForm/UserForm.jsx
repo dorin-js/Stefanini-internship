@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classes from './UserForm.module.css';
-import userApi from '../../services/usersApi';
-import { Snackbar } from '../Snackbar';
-import { Button } from '../Button';
+import userApi from '../../../common/services/usersApi';
+import { Snackbar } from '../../../common/components/Snackbar';
+import { Button } from '../../../common/components/Button';
 
 const defaultFormData = {
   name: '',
@@ -13,23 +12,20 @@ const defaultFormData = {
   birth: '',
 };
 
-const CreateForm = ({ setVisible, onCreateUser }) => {
+const UserForm = ({ onCreateUser }) => {
   const [form, setForm] = useState(defaultFormData);
   const [loading, setLoading] = useState();
   const [error, setError] = useState(null);
-  const [postedStats, setPostedStats] = useState({ status: '', message: '' });
 
-  const createUser = (body) => {
-    userApi.postUser(body)
-      .then(({ items }) => {
-        onCreateUser((prevState) => [...items, ...prevState]);
-        setPostedStats({ status: 'success', message: 'Posted successfuly!' });
-        setVisible(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setPostedStats({ status: 'error', message: err });
-      });
+  const createUser = async (body) => {
+    setLoading(true);
+    try {
+      const res = await userApi.postUser(body);
+      onCreateUser(res);
+    } catch (e) {
+      setError(e.message);
+    }
+    setLoading(false);
   };
 
   const onValueChanged = (value) => {
@@ -46,13 +42,11 @@ const CreateForm = ({ setVisible, onCreateUser }) => {
       <form
         name="form"
         className={classes.createUserForm}
-        onSubmit={onFormSubmited}
       >
         <input
           required
           placeholder="First Name"
           value={form.name}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
           onChange={(e) => onValueChanged({ name: e.target.value })}
         />
         <input
@@ -76,24 +70,21 @@ const CreateForm = ({ setVisible, onCreateUser }) => {
           onChange={(e) => onValueChanged({ birth: e.target.value })}
         />
         <div className="buttonsContainer">
-          <Button type="submit" value="Create User" />
-          <Button onClick={() => setVisible(false)} value="Cancel" />
+          <Button onClick={onFormSubmited} value={loading ? 'Creating...' : 'Create User'} />
         </div>
       </form>
       {
-        postedStats.status
-        && <Snackbar type={postedStats.status} message={postedStats.message} timeout={3} />
+        error && <Snackbar type="error" message={error} timeout={4} />
       }
     </>
   );
 };
 
-CreateForm.propTypes = {
-  onCreateUser: PropTypes.func.isRequired,
-  setVisible: PropTypes.func,
+UserForm.propTypes = {
+  onCreateUser: PropTypes.func,
 };
-CreateForm.defaultProps = {
-  setVisible: () => undefined,
+UserForm.defaultProps = {
+  onCreateUser: () => undefined,
 };
 
-export default CreateForm;
+export default UserForm;
